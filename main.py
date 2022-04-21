@@ -23,7 +23,7 @@ ball_y=0
 # Само окошко
 tk = Tk()
 tk.title("Игра " + "Пин Понг")
-canvas = Canvas(tk,width=width,height=height, background= background)
+canvas = Canvas(tk, width=width, height=height, background=background)
 canvas.pack()
 tk.update()
 
