@@ -61,6 +61,12 @@ def W_S (event):
     elif event.keysym=="Down":
         speed_right_desk=speed_desks
 
+def ball_2():
+    left, up,right,down = canvas.coords(ball)
+    center = (down + up)/2
+    if right +ball_start_x<width-width_desk and left+ball_start_x>width_desk:
+        canvas.move(ball,ball_x,ball_y)
+
 canvas.bind("<KeyPress>",W_S)
 
 def stop_W_S (event):
@@ -80,4 +86,5 @@ canvas.bind("<KeyRelease>",stop_W_S)
 
 while True:
     desk()
+    ball_2()
     tk.update()
