@@ -1,5 +1,5 @@
 from tkinter import*
-
+from random import*
 # Переменные
 width = 1200
 height =700
@@ -61,6 +61,17 @@ def W_S (event):
     elif event.keysym=="Down":
         speed_right_desk=speed_desks
 
+def bound(a):
+    global ball_start_x
+    global ball_start_y
+    if a=="desk":
+        ball_start_y=random.randrange(-10,10)
+        if abs(ball_start_x)<ball_finish_speed:
+            ball_start_x=ball_start_x * (-speed_ball_plus)
+        else:
+            ball_start_x= -ball_start_x
+    else:
+        ball_start_y=-ball_start_y
 def ball_2():
     left, up,right,down = canvas.coords(ball)
     center = (down + up)/2
@@ -69,6 +80,7 @@ def ball_2():
     elif left == width_desk or right == width-width_desk:
         if right > width/2:
             if canvas.coords(right_desk)[1] < center < canvas.coords(right_desk)[3]:
+                bound("desk")
 
 
 canvas.bind("<KeyPress>",W_S)
