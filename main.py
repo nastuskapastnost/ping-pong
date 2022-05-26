@@ -76,11 +76,20 @@ def ball_2():
     left, up,right,down = canvas.coords(ball)
     center = (down + up)/2
     if right +ball_start_x<width-width_desk and left+ball_start_x>width_desk:
-        canvas.move(ball,ball_x,ball_y)
+        canvas.move(ball,-ball_x,ball_y)
     elif left == width_desk or right == width-width_desk:
         if right > width/2:
             if canvas.coords(right_desk)[1] < center < canvas.coords(right_desk)[3]:
                 bound("desk")
+            else:
+                pass
+        else:
+            if canvas.coords(left_desk)[1] < center < canvas.coords(left_desk)[3]:
+                bound("desk")
+            else:
+                pass
+
+    else:
 
 
 canvas.bind("<KeyPress>",W_S)
@@ -102,5 +111,6 @@ canvas.bind("<KeyRelease>",stop_W_S)
 
 while True:
     desk()
+    print(canvas.coords(lef(left_desk)[1](left_desk)[1][1][3]))
     ball_2()
     tk.update()
