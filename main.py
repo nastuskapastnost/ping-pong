@@ -1,5 +1,5 @@
 from tkinter import*
-from random import*
+import random
 # Переменные
 width = 1200
 height =700
@@ -62,16 +62,16 @@ def W_S (event):
         speed_right_desk=speed_desks
 
 def bound(a):
-    global ball_start_x
-    global ball_start_y
+    global ball_x
+    global ball_y
     if a=="desk":
-        ball_start_y=random.randrange(-10,10)
-        if abs(ball_start_x)<ball_finish_speed:
-            ball_start_x=ball_start_x * (-speed_ball_plus)
+        ball_y=random.randrange(-10,10)
+        if abs(ball_x)<ball_finish_speed:
+            ball_x=ball_x * (-speed_ball_plus)
         else:
-            ball_start_x= -ball_start_x
+            ball_x= -ball_x
     else:
-        ball_start_y=-ball_start_y
+        ball_y=-ball_y
 def ball_2():
     left, up,right,down = canvas.coords(ball)
     center = (down + up)/2
@@ -90,6 +90,13 @@ def ball_2():
                 pass
 
     else:
+        if right > width/2:
+            canvas.move(ball,width-width_desk-right,ball_y)
+        else:
+            canvas.move(ball,width_desk-left,ball_y)
+
+    if up + ball_y < 0 or down + ball_y > height:
+        bound("go to else")
 
 
 canvas.bind("<KeyPress>",W_S)
@@ -111,6 +118,5 @@ canvas.bind("<KeyRelease>",stop_W_S)
 
 while True:
     desk()
-    print(canvas.coords(lef(left_desk)[1](left_desk)[1][1][3]))
     ball_2()
     tk.update()
