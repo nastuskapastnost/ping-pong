@@ -15,11 +15,14 @@ speed_left_desk = 0
 speed_right_desk = 0
 speed_desks = 20
 speed_ball_plus = 1.05
-ball_start_x=20
-ball_start_y=20
-ball_finish_speed = 40
-ball_x=20
+ball_start_x=12
+ball_start_y=12
+ball_finish_speed = 30
+ball_x=12
 ball_y=0
+R=width-width_desk
+red= 0
+blue= 0
 # Само окошко
 tk = Tk()
 tk.title("Игра " + "Пин Понг")
@@ -36,6 +39,7 @@ central_line = canvas.create_line(width/2,0,width/2,height,fill=fill_line)
 
 ball = canvas.create_oval(width/2-radius,height/2-radius,width/2+radius,height/2+radius,fill= fill_ball)
 
+count_text=canvas.create_text(width/2,15,text= (blue,red) , font='Arial 30', fill = 'black')
 # Функции
 # Функция ракеток
 def desk ():
@@ -61,23 +65,37 @@ def W_S (event):
     elif event.keysym=="Down":
         speed_right_desk=speed_desks
 
+canvas.bind("<KeyPress>",W_S)
+
+def stop_W_S (event):
+    global speed_left_desk
+    global speed_right_desk
+    if event.keysym in "ws":
+        speed_left_desk=0
+    elif event.keysym in ("Up","Down"):
+        speed_right_desk=0
+
+canvas.bind("<KeyRelease>",stop_W_S)
+
+
+
 def bound(a):
-    global ball_x
-    global ball_y
+    global ball_start_x
+    global ball_start_y
     if a=="desk":
-        ball_y=random.randrange(-10,10)
-        if abs(ball_x)<ball_finish_speed:
-            ball_x=ball_x * (-speed_ball_plus)
+        ball_start_y=random.randrange(-10,10)
+        if abs(ball_start_x)<ball_finish_speed:
+            ball_start_x=ball_start_x * (-speed_ball_plus)
         else:
-            ball_x= -ball_x
+            ball_start_x= -ball_start_x
     else:
-        ball_y=-ball_y
+        ball_start_y=-ball_start_y
 def ball_2():
     left, up,right,down = canvas.coords(ball)
     center = (down + up)/2
-    if right +ball_start_x<width-width_desk and left+ball_start_x>width_desk:
-        canvas.move(ball,-ball_x,ball_y)
-    elif left == width_desk or right == width-width_desk:
+    if right + ball_start_x<R and left+ball_start_x>width_desk:
+        canvas.move(ball,ball_start_x,ball_start_y)
+    elif left == width_desk or right == R:
         if right > width/2:
             if canvas.coords(right_desk)[1] < center < canvas.coords(right_desk)[3]:
                 bound("desk")
@@ -91,27 +109,13 @@ def ball_2():
 
     else:
         if right > width/2:
-            canvas.move(ball,width-width_desk-right,ball_y)
+            canvas.move(ball,R-right,ball_start_y)
         else:
-            canvas.move(ball,width_desk-left,ball_y)
+            canvas.move(ball,width_desk-left,ball_start_y)
 
-    if up + ball_y < 0 or down + ball_y > height:
+    if up + ball_start_y < 0 or down + ball_start_y > height:
         bound("go to else")
 
-
-canvas.bind("<KeyPress>",W_S)
-
-def stop_W_S (event):
-    global speed_left_desk
-    global speed_right_desk
-    if event.keysym in "ws":
-        speed_left_desk=0
-    elif event.keysym in ("Up","Down"):
-        speed_right_desk=0
-
-canvas.bind("<KeyRelease>",stop_W_S)
-
-# Мячик
 
 
 # Бесконечный цыкл
@@ -119,4 +123,5 @@ canvas.bind("<KeyRelease>",stop_W_S)
 while True:
     desk()
     ball_2()
+    tk.after(30)
     tk.update()
