@@ -23,6 +23,8 @@ ball_y=0
 R=width-width_desk
 red= 0
 blue= 0
+boll="start"
+napravlenie=20
 # Само окошко
 tk = Tk()
 tk.title("Игра " + "Пин Понг")
@@ -39,7 +41,10 @@ central_line = canvas.create_line(width/2,0,width/2,height,fill=fill_line)
 
 ball = canvas.create_oval(width/2-radius,height/2-radius,width/2+radius,height/2+radius,fill= fill_ball)
 
+#repeat= canvas.create_line(height/1.4)
+
 count_text=canvas.create_text(width/2,15,text= (blue,red) , font='Arial 30', fill = 'black')
+win_text=canvas.create_text(width/2,height/2,text= "",font = 'Arial 100', fill='black')
 # Функции
 # Функция ракеток
 def desk ():
@@ -100,12 +105,14 @@ def ball_2():
             if canvas.coords(right_desk)[1] < center < canvas.coords(right_desk)[3]:
                 bound("desk")
             else:
-                pass
+                count_score("right")
+                one()
         else:
             if canvas.coords(left_desk)[1] < center < canvas.coords(left_desk)[3]:
                 bound("desk")
             else:
-                pass
+                count_score("left")
+                one()
 
     else:
         if right > width/2:
@@ -117,11 +124,34 @@ def ball_2():
         bound("go to else")
 
 
+def count_score (a):
+    global blue,red
+    if a=="right":
+        blue = blue+1
+        canvas.itemconfigure(count_text,text= (blue,red))
+    else:
+        red=red+1
+        canvas.itemconfigure(count_text,text= (blue,red))
 
+
+def one ():
+    global ball_start_x
+    canvas.coords(ball,width/2-radius,height/2-radius,width/2+radius,height/2+radius)
+    ball_start_x= -(ball_start_x*napravlenie)/abs(ball_start_x)
 # Бесконечный цыкл
+def win ():
+    global boll
+    if red == 20:
+        canvas.itemconfigure(win_text,text="red win",fill='red')
+        boll="stop"
+    if blue == 20:
+        canvas.itemconfigure(win_text,text="blue win",fill='blue')
+        boll="stop"
 
 while True:
     desk()
-    ball_2()
+    if boll=="start":
+        ball_2()
+    win()
     tk.after(30)
     tk.update()
