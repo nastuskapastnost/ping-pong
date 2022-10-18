@@ -53,6 +53,24 @@ right_desk = canvas.create_line(
     width=width_desk,
     fill=fill_right_desk
 )
+
+repeat = canvas.create_line(
+    width / 2.65,
+    height / 1.4,
+    width / 1.6,
+    height / 1.4,
+    width= width_repeat,
+    fill= background
+)
+
+repeat_text = canvas.create_text(
+    width/2,
+    height/1.4,
+    text= "repeat",
+    font= 'Arial 55',
+    fill= background
+)
+
 central_line = canvas.create_line(
     width / 2,
     0,
@@ -68,22 +86,6 @@ ball = canvas.create_oval(
     fill=fill_ball
 )
 
-repeat = canvas.create_line(
-    width / 2.65,
-    height / 1.4,
-    width / 1.6,
-    height / 1.4,
-    width=width_repeat,
-    fill=fill_repeat
-)
-
-repeat_text = canvas.create_text(
-    width/2,
-    height/1.4,
-    text="repeat",
-    font='Arial 55',
-    fill='black'
-)
 
 count_text = canvas.create_text(
     width / 2,
@@ -209,9 +211,13 @@ def win():
     global boll
     if red == 20:
         canvas.itemconfigure(win_text, text="red win", fill='red')
+        canvas.itemconfigure(repeat_text, fill='black')
+        canvas.itemconfigure(repeat, fill=fill_repeat)
         boll = "stop"
     if blue == 20:
         canvas.itemconfigure(win_text, text="blue win", fill='blue')
+        canvas.itemconfigure(repeat_text, fill='black')
+        canvas.itemconfigure(repeat, fill=fill_repeat)
         boll = "stop"
 
 
