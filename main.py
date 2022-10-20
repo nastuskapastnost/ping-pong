@@ -3,7 +3,7 @@ import random
 
 # Переменные
 width = 1200
-height = 700
+height = 650
 background = 'LemonChiffon'
 width_desk = 25
 height_desk = 100
@@ -221,6 +221,17 @@ def win():
         boll = "stop"
 
 
+def resturt():
+    global blue
+    global red
+    global boll
+    red = 0
+    blue = 0
+    boll = "start"
+
+
+key = Button (canvas,text='repeat',bg=fill_repeat,command=resturt)
+key.place(x=width/2,y=height/1.4,width=width_repeat*2.5,height=120)
 ##################
 while True:
     desk()
